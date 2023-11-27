@@ -10,12 +10,11 @@ from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
 
-@dataclass 
+@dataclass
 class DataIngestionConfig:
     train_data_path:str=os.path.join('artifacts','train.csv')
     test_data_path:str=os.path.join('artifacts','test.csv')
     raw_data_path:str=os.path.join('artifacts','raw.csv')
-
 
 class DataIngestion:
     def __init__(self):
@@ -23,8 +22,8 @@ class DataIngestion:
 
     def initiate_data_ingestion(self):
         try:
-            #reading the data from mysql 
-            df=read_sql_data()     
+            ##reading the data from mysql
+            df=pd.read_csv(os.path.join('notebook/data','raw.csv'))
             logging.info("Reading completed mysql database")
 
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)
@@ -39,8 +38,10 @@ class DataIngestion:
             return(
                 self.ingestion_config.train_data_path,
                 self.ingestion_config.test_data_path
+
+
             )
+
 
         except Exception as e:
             raise CustomException(e,sys)
-        
